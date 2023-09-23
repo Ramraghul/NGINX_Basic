@@ -1,0 +1,15 @@
+upstream backend_servers {
+    server 127.0.0.1:3000;  # Server 1
+    server 127.0.0.1:3001;  # Server 2
+}
+
+server {
+    listen 80;
+    server_name 127.0.0.1;  # Replace with your actual domain or server IP
+
+    location / {
+        proxy_pass http://backend_servers;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
